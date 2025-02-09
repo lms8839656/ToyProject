@@ -4,5 +4,12 @@
 			"path": "."
 		}
     ],
-    "settings": {}
+    "settings": {
+        "files.associations": {
+            "user_include.h": "c",
+            "spi.h": "c",
+            "main.h": "c",
+            "stm32h7xx_hal.h": "c"
+        }
+    }
 }
