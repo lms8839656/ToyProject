@@ -6,19 +6,25 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../System/User_Init.c \
+../System/User_Interrupt.c \
 ../System/User_MSP2404.c \
+../System/User_RTC.c \
 ../System/User_SuperLoop.c \
 ../System/User_TM1638.c 
 
 OBJS += \
 ./System/User_Init.o \
+./System/User_Interrupt.o \
 ./System/User_MSP2404.o \
+./System/User_RTC.o \
 ./System/User_SuperLoop.o \
 ./System/User_TM1638.o 
 
 C_DEPS += \
 ./System/User_Init.d \
+./System/User_Interrupt.d \
 ./System/User_MSP2404.d \
+./System/User_RTC.d \
 ./System/User_SuperLoop.d \
 ./System/User_TM1638.d 
 
@@ -30,7 +36,7 @@ System/%.o System/%.su System/%.cyclo: ../System/%.c System/subdir.mk
 clean: clean-System
 
 clean-System:
-	-$(RM) ./System/User_Init.cyclo ./System/User_Init.d ./System/User_Init.o ./System/User_Init.su ./System/User_MSP2404.cyclo ./System/User_MSP2404.d ./System/User_MSP2404.o ./System/User_MSP2404.su ./System/User_SuperLoop.cyclo ./System/User_SuperLoop.d ./System/User_SuperLoop.o ./System/User_SuperLoop.su ./System/User_TM1638.cyclo ./System/User_TM1638.d ./System/User_TM1638.o ./System/User_TM1638.su
+	-$(RM) ./System/User_Init.cyclo ./System/User_Init.d ./System/User_Init.o ./System/User_Init.su ./System/User_Interrupt.cyclo ./System/User_Interrupt.d ./System/User_Interrupt.o ./System/User_Interrupt.su ./System/User_MSP2404.cyclo ./System/User_MSP2404.d ./System/User_MSP2404.o ./System/User_MSP2404.su ./System/User_RTC.cyclo ./System/User_RTC.d ./System/User_RTC.o ./System/User_RTC.su ./System/User_SuperLoop.cyclo ./System/User_SuperLoop.d ./System/User_SuperLoop.o ./System/User_SuperLoop.su ./System/User_TM1638.cyclo ./System/User_TM1638.d ./System/User_TM1638.o ./System/User_TM1638.su
 
 .PHONY: clean-System
 
