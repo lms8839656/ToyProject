@@ -11,4 +11,4 @@ extern void TM1638_CallBack(SPI_HandleTypeDef *hspi);
 extern bool IsSended_SPI;
 
 
-extern TM1638_DisplayNumber_TEST(uint8_t position, uint8_t number);
+extern int TM1638_DisplayNumber_TEST(uint8_t position, uint8_t number);

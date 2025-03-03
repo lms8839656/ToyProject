@@ -44,11 +44,11 @@ void TM1638_SendByte(uint8_t data)
 void TM1638_SendByte_DMA(uint8_t data)
 {
     IsSended_SPI = 0;
-    uint8_t temp[0];
-    temp[0] = data;
+    uint8_t temp;
+    temp = data;
     HAL_GPIO_WritePin(SPI_STB_GPIO_Port, SPI_STB_Pin, GPIO_PIN_RESET);
     SCB_CleanDCache_by_Addr((uint32_t*)txBuffer, sizeof(data)*4);
-    HAL_SPI_Transmit_DMA(&TM1638_SPI, temp, 1);
+    HAL_SPI_Transmit_DMA(&TM1638_SPI, &temp, 1);
     while (!IsSended_SPI)
     {
         continue;
@@ -59,7 +59,7 @@ void TM1638_ReceiveByte(uint8_t data)
 {
     uint8_t receivedData = 0;
     HAL_SPI_Receive(&TM1638_SPI, &receivedData, 1, HAL_MAX_DELAY);
-    return receivedData;
+    return;
 }
 
 void TM1638_DisplayNumber(uint8_t position, uint8_t number)
@@ -89,7 +89,7 @@ void TM1638_Init()
     HAL_GPIO_WritePin(SPI_STB_GPIO_Port, SPI_STB_Pin, GPIO_PIN_SET);
 
     HAL_GPIO_WritePin(SPI_STB_GPIO_Port, SPI_STB_Pin, GPIO_PIN_RESET);
-    TM1638_SendByte_TEST(0xC0);
+    TM1638_SendByte(0xC0);
     for (int i = 0; i < 16; i++) {
         TM1638_SendByte(0x00);
         HAL_Delay(10);
