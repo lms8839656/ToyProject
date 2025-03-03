@@ -27,6 +27,8 @@ C:\Users\LeeJaeHwa\Desktop\ToyProject\EWARM/../Drivers/CMSIS/Device/ST/STM32H7xx
 -I
 C:\Users\LeeJaeHwa\Desktop\ToyProject\EWARM/../Drivers/CMSIS/Include
 -I
+C:\Users\LeeJaeHwa\Desktop\ToyProject\EWARM/../System
+-I
 C:\Program Files\IAR Systems\Embedded Workbench 9.1\arm\inc\c\aarch32
 -I
 C:\Program Files\IAR Systems\Embedded Workbench 9.1\arm\inc
@@ -48,6 +50,8 @@ C:\Users\LeeJaeHwa\Desktop\ToyProject\Middlewares\Third_Party\FreeRTOS\Source\po
 C:\Users\LeeJaeHwa\Desktop\ToyProject\Drivers\CMSIS\Device\ST\STM32H7xx\Include
 -I
 C:\Users\LeeJaeHwa\Desktop\ToyProject\Drivers\CMSIS\Include
+-I
+C:\Users\LeeJaeHwa\Desktop\ToyProject\System
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0

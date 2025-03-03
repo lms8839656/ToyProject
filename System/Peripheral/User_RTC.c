@@ -29,14 +29,12 @@ void GetRTC()
 void DisplayRTC()
 {
     GetRTC();
-    HAL_GPIO_WritePin(SPI_STB_GPIO_Port, SPI_STB_Pin, GPIO_PIN_RESET);
     TM1638_DisplayNumber(0, (g_Time.Hours >> 4) & 0x0F);
     TM1638_DisplayNumber(1, g_Time.Hours & 0x0F);
     TM1638_DisplayNumber(2, (g_Time.Minutes >> 4) & 0x0F);
     TM1638_DisplayNumber(3, g_Time.Minutes & 0x0F);
     TM1638_DisplayNumber(4, (g_Time.Seconds >> 4) & 0x0F);
     TM1638_DisplayNumber(5, g_Time.Seconds & 0x0F);
-    HAL_GPIO_WritePin(SPI_STB_GPIO_Port, SPI_STB_Pin, GPIO_PIN_SET);
 }
 
 void DisplayRTC_TEST()

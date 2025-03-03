@@ -2,6 +2,7 @@
 #include "tim.h"
 
 #include "User_include.h"
+#include "User_TM1638.h"
 
 void User_SystemInit();
 

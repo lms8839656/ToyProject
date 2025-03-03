@@ -30,7 +30,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "User_include.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -115,7 +115,10 @@ int main(void)
   MX_SPI5_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
+  extern void User_SystemInit();
+  User_SystemInit();
+  extern void User_RunSystem();
+  User_RunSystem();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
