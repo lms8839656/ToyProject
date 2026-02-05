@@ -89,6 +89,9 @@ Release/
 # IAR project settings directory
 settings/
 
+# IAR BrowseInfo files
+BrowseInfo/
+
 # IAR backup files
 Backup*
 
