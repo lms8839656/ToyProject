@@ -62,7 +62,7 @@
                 </option>
                 <option>
                     <name>RTDescription</name>
-                    <state>Use the full configuration of the C/C++ runtime library. Full locale interface, C locale, file descriptor support, multibytes in printf and scanf, and hex floats in strtod.</state>
+                    <state>A complete configuration of the C/C++14 runtime library. Full locale interface, C locale, file descriptor support, multibytes in printf and scanf, and hex floats in strtod.</state>
                 </option>
                 <option>
                     <name>OGProductVersion</name>
@@ -180,7 +180,7 @@
                 </option>
                 <option>
                     <name>DSPExtension</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>TrustZone</name>
@@ -356,6 +356,8 @@
                     <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F</state>
                     <state>$PROJ_DIR$/../Drivers/CMSIS/Device/ST/STM32H7xx/Include</state>
                     <state>$PROJ_DIR$/../Drivers/CMSIS/Include</state>
+                    <state>$PROJ_DIR$/../System</state>
+                    <state>$PROJ_DIR$/../System/Peripheral</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -599,7 +601,7 @@
                 </option>
                 <option>
                     <name>AOutputFile</name>
-                    <state></state>
+                    <state>$FILE_BNAME$.o</state>
                 </option>
                 <option>
                     <name>ALimitErrorsCheck</name>
@@ -997,7 +999,7 @@
                 </option>
                 <option>
                     <name>IlinkTrustzoneImportLibraryOut</name>
-                    <state></state>
+                    <state>ToyProject_import_lib.o</state>
                 </option>
                 <option>
                     <name>OILinkExtraOption</name>
@@ -1281,5 +1283,26 @@
                 <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\timers.c</name>
             </file>
         </group>
+    </group>
+    <group>
+        <name>System</name>
+        <file>
+            <name>$PROJ_DIR$\..\System\User_Init.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\System\User_Interrupt.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\System\Peripheral\User_MSP2404.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\System\Peripheral\User_RTC.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\System\User_SuperLoop.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\System\Peripheral\User_TM1638.c</name>
+        </file>
     </group>
 </project>

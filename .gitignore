@@ -73,6 +73,9 @@ thumbs.db
 
 # IAR Debug Exe
 **/Exe/*.sim
+*.map
+*.ninja_deps
+*.ninja_log
 
 # IAR Debug Obj
 **/Obj/*.pbd

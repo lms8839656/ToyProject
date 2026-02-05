@@ -1621,4 +1621,25 @@
             </file>
         </group>
     </group>
+    <group>
+        <name>System</name>
+        <file>
+            <name>$PROJ_DIR$\..\System\User_Init.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\System\User_Interrupt.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\System\Peripheral\User_MSP2404.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\System\Peripheral\User_RTC.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\System\User_SuperLoop.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\System\Peripheral\User_TM1638.c</name>
+        </file>
+    </group>
 </project>
