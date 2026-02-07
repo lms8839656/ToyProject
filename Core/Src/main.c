@@ -119,6 +119,7 @@ int main(void)
   User_SystemInit();
   extern void User_RunSystem();
   User_RunSystem();
+#if 0
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -130,6 +131,7 @@ int main(void)
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+#endif
   while (1)
   {
     /* USER CODE END WHILE */
