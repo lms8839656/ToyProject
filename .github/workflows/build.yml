@@ -1,0 +1,68 @@
+name: Firmware Build and Release
+
+on:
+  push:
+    branches: [ main, develop ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 전체 히스토리 (태그 정보 필요)
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate version.h (Python - CI용)
+        run: python scripts/update_version.py
+
+      - name: Display version info
+        run: cat Core/Inc/version.h
+
+      # IAR 빌드 (실제 환경에서는 IAR 라이선스 필요)
+      # - name: Build with IAR
+      #   run: |
+      #     "C:\Program Files\IAR Systems\Embedded Workbench 9.0\common\bin\iarbuild.exe" ^
+      #       EWARM/Project.eww -build Release
+
+      - name: Upload firmware artifact
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware-${{ github.ref_name }}
+          path: |
+            EWARM/Release/*.hex
+            EWARM/Release/*.bin
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            firmware-${{ github.ref_name }}/*.hex
+            firmware-${{ github.ref_name }}/*.bin
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

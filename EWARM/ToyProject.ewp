@@ -681,7 +681,7 @@
             <name>BUILDACTION</name>
             <archiveVersion>1</archiveVersion>
             <data>
-                <prebuild></prebuild>
+                <prebuild>powershell -NoProfile -ExecutionPolicy Bypass -File "$PROJ_DIR$\prebuild_version.ps1"</prebuild>
                 <postbuild></postbuild>
             </data>
         </settings>

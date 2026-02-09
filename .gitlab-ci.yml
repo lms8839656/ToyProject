@@ -1,0 +1,62 @@
+# GitLab CI/CD Configuration
+# For cross-platform firmware build
+
+stages:
+  - build
+  - test
+  - release
+
+variables:
+  GIT_DEPTH: 0  # 전체 히스토리 가져오기 (태그 정보 필요)
+
+# 공통 before_script
+.common_setup:
+  before_script:
+    - python --version
+    - git --version
+    - git describe --tags --always || echo "No tags"
+
+build_firmware:
+  stage: build
+  extends: .common_setup
+  image: python:3.11-slim
+
+  script:
+    # Git 설치 (slim 이미지에는 없을 수 있음)
+    - apt-get update && apt-get install -y git
+
+    # Python 스크립트로 버전 생성 (크로스 플랫폼)
+    - python scripts/update_version.py
+
+    # 생성된 version.h 확인
+    - cat Core/Inc/version.h
+
+    # IAR 빌드 (실제로는 IAR가 설치된 Windows runner 필요)
+    # - iarbuild EWARM/Project.eww -build Release
+
+  artifacts:
+    name: "firmware-$CI_COMMIT_REF_NAME"
+    paths:
+      - Core/Inc/version.h
+      # - EWARM/Release/*.hex
+      # - EWARM/Release/*.bin
+    expire_in: 1 week
+
+  only:
+    - main
+    - develop
+    - tags
+
+release_firmware:
+  stage: release
+  extends: .common_setup
+  image: python:3.11-slim
+
+  script:
+    - echo "Creating release for $CI_COMMIT_TAG"
+    # 릴리즈 생성 로직...
+
+  only:
+    - tags
+  dependencies:
+    - build_firmware

@@ -1,3 +1,6 @@
+# Auto-generated files
+Core/Inc/version.h
+
 # IAR Embedded Workbench
 *.ewd
 *.out
