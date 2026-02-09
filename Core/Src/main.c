@@ -291,6 +291,12 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
+  // 1. 디버거가 연결되어 있다면 여기서 멈춤 (BKPT 명령어)
+  __asm("BKPT #0");
+
+  // 2. 로그 출력 (printf가 설정되어 있다면)
+  // printf("Assert Failed! File: %s, Line: %lu\r\n", file, line);
+
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
