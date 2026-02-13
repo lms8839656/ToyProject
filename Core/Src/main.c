@@ -287,10 +287,10 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  // 1. ë””ë²„ê±°ê°€ ì—°ê²°ë˜ì–´ ìˆë‹¤ë©´ ì—¬ê¸°ì„œ ë©ˆì¶¤ (BKPT ëª…ë ¹ì–´)
+  // 1. ?””ë²„ê±°ê°? ?—°ê²°ë˜?–´ ?ˆ?‹¤ë©? ?—¬ê¸°ì„œ ë©ˆì¶¤ (BKPT ëª…ë ¹?–´)
   __asm("BKPT #0");
 
-  // 2. ë¡œê·¸ ì¶œë ¥ (printfê°€ ì„¤ì •ë˜ì–´ ìˆë‹¤ë©´)
+  // 2. ë¡œê·¸ ì¶œë ¥ (printfê°? ?„¤? •?˜?–´ ?ˆ?‹¤ë©?)
   // printf("Assert Failed! File: %s, Line: %lu\r\n", file, line);
 
   /* User can add his own implementation to report the file name and line number,
