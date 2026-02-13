@@ -357,7 +357,9 @@
                     <state>$PROJ_DIR$/../Drivers/CMSIS/Device/ST/STM32H7xx/Include</state>
                     <state>$PROJ_DIR$/../Drivers/CMSIS/Include</state>
                     <state>$PROJ_DIR$/../System</state>
-                    <state>$PROJ_DIR$/../System/Peripheral</state>
+                    <state>$PROJ_DIR$/../System/Bsp</state>
+                    <state>$PROJ_DIR$/../System/Task</state>
+                    <state>$PROJ_DIR$/../System/util</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -1286,23 +1288,26 @@
     </group>
     <group>
         <name>System</name>
+        <group>
+            <name>Bsp</name>
+            <file>
+                <name>$PROJ_DIR$\..\System\Bsp\bsp_TM1638.c</name>
+            </file>
+        </group>
+        <group>
+            <name>util</name>
+            <file>
+                <name>$PROJ_DIR$\..\System\util\RTC.c</name>
+            </file>
+        </group>
         <file>
-            <name>$PROJ_DIR$\..\System\User_Init.c</name>
+            <name>$PROJ_DIR$\..\System\sys_Init.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\System\User_Interrupt.c</name>
+            <name>$PROJ_DIR$\..\System\sys_Interrupt.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\..\System\Peripheral\User_MSP2404.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\System\Peripheral\User_RTC.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\System\User_SuperLoop.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\System\Peripheral\User_TM1638.c</name>
+            <name>$PROJ_DIR$\..\System\sys_main.c</name>
         </file>
     </group>
 </project>

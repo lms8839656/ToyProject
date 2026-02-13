@@ -30,7 +30,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "User_include.h"
+#include "sys_main.h"
 #include "version.h"
 /* USER CODE END Includes */
 
@@ -116,13 +116,9 @@ int main(void)
   MX_SPI5_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  // Git Version Info: FW_VERSION_STRING (e.g., "v1.0.0")
-  // Build Date: FW_BUILD_DATE
-
-  extern void User_SystemInit();
   User_SystemInit();
-  extern void User_RunSystem();
   User_RunSystem();
+  vTaskStartScheduler();
 #if 0
   /* USER CODE END 2 */
 

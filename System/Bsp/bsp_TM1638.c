@@ -1,6 +1,6 @@
 #include "main.h"
 #include "spi.h"
-#include "User_include.h"
+#include "sys_main.h"
 
 /* Define Peripheral */
 
@@ -9,7 +9,7 @@
 
 #define ADDRESS_0        0xC0
 
-const unsigned char TM1636_7Seg[10] =
+const unsigned char TM1638_7Seg[10] =
 {
     0x3F, // 0
     0x06, // 1
@@ -26,7 +26,7 @@ const unsigned char TM1636_7Seg[10] =
 static bool IsSended_SPI = 0;
 
 void TM1638_SendByte_Single(uint8_t data);
-void TM1638_SendByte(uint8_t *data);
+void TM1638_SendByte(uint8_t *data, uint8_t size);
 void TM1638_ReceiveByte(uint8_t data);
 void TM1638_Init();
 void TM1638_DisplayNumber(uint8_t position, uint8_t number);
@@ -44,11 +44,11 @@ void TM1638_SendByte_Single(uint8_t data)
     HAL_GPIO_WritePin(SPI_STB_GPIO_Port, SPI_STB_Pin, GPIO_PIN_SET);
 }
 
-void TM1638_SendByte(uint8_t *data)
+void TM1638_SendByte(uint8_t *data, uint8_t size)
 {
     IsSended_SPI = 0;
     HAL_GPIO_WritePin(SPI_STB_GPIO_Port, SPI_STB_Pin, GPIO_PIN_RESET);
-    for(int i = 0; i < sizeof(data); ++i)
+    for(int i = 0; i < size; ++i)
     {
         HAL_SPI_Transmit(&TM1638_SPI, &data[i], 1, HAL_MAX_DELAY);
     }
@@ -59,8 +59,8 @@ void TM1638_SendByte_DMA(uint8_t *data, uint8_t size)
 {
     IsSended_SPI = 0;
     HAL_GPIO_WritePin(SPI_STB_GPIO_Port, SPI_STB_Pin, GPIO_PIN_RESET);
-    SCB_CleanDCache_by_Addr((uint32_t*)data, sizeof(data)*4);
-    HAL_SPI_Transmit_DMA(&TM1638_SPI, data, sizeof(data));
+    SCB_CleanDCache_by_Addr((uint32_t*)data, size * 4);
+    HAL_SPI_Transmit_DMA(&TM1638_SPI, data, size);
     while (!IsSended_SPI)
     {
         continue;
@@ -77,10 +77,10 @@ void TM1638_ReceiveByte(uint8_t data)
 
 void TM1638_DisplayNumber(uint8_t position, uint8_t number)
 {
-    uint8_t data[2] = {NULL, };
+    uint8_t data[2] = {0};
     data[0] = 0xC0 | (position * 2);
-    data[1] = TM1636_7Seg[number];
-    TM1638_SendByte(data);
+    data[1] = TM1638_7Seg[number];
+    TM1638_SendByte(data, 2);
 }
 
 void TM1638_TestCode()
@@ -99,22 +99,23 @@ void TM1638_TestCode()
 
 void TM1638_Init()
 {
-    uint8_t data[17] = {NULL, };
-    memset(data, 0xFF, sizeof(data));
-    //Set Display Brightless (0x8F == MAX)
+    uint8_t data[17] = {0};
+
+    //Set Display Brightness (0x8F == MAX)
     TM1638_SendByte_Single(0x8F);
-    
+
     //Set Auto Address Increment Mode
     TM1638_SendByte_Single(0x40);
 
     //Set Address 0, All On
     data[0] = ADDRESS_0;
-    TM1638_SendByte(data);
+    memset(&data[1], 0xFF, 16);
+    TM1638_SendByte(data, sizeof(data));
 
     //Set Address 0, All off
     data[0] = ADDRESS_0;
-    memset(data, 0x00, sizeof(data));
-    TM1638_SendByte(data);
+    memset(&data[1], 0x00, 16);
+    TM1638_SendByte(data, sizeof(data));
 }
 
 #ifdef TM1636_GPIO
@@ -152,7 +153,7 @@ void TM1638_Clear_TSET(void) {
 
     HAL_GPIO_WritePin(TM1638_STB_PORT, TM1638_STB_PIN, GPIO_PIN_RESET);
     TM1638_SendByte_TEST(0xC0 | (3 * 2));
-    TM1638_SendByte_TEST(TM1636_7Seg[3]);
+    TM1638_SendByte_TEST(TM1638_7Seg[3]);
     HAL_GPIO_WritePin(TM1638_STB_PORT, TM1638_STB_PIN, GPIO_PIN_SET);
 
     HAL_GPIO_WritePin(TM1638_STB_PORT, TM1638_STB_PIN, GPIO_PIN_RESET);
@@ -170,7 +171,7 @@ void TM1638_DisplayNumber_TEST(uint8_t position, uint8_t number)
     HAL_Delay(10);
     TM1638_SendByte_TEST(0xC0 | (position * 2));
     HAL_Delay(10);
-    TM1638_SendByte_TEST(TM1636_7Seg[number]);
+    TM1638_SendByte_TEST(TM1638_7Seg[number]);
     HAL_Delay(10);
 }
 
