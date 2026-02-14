@@ -6,7 +6,7 @@
 
 static void sys_main_task(void *arg);
 
-void User_RunSystem(void)
+void sys_main_create(void)
 {
     xTaskCreate(sys_main_task, "sysTask", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
 }

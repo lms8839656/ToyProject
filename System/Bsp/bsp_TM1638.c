@@ -28,6 +28,7 @@ static const uint8_t TM1638_7Seg[10] =
 /* ───────────── Private Variables ───────────── */
 
 static SemaphoreHandle_t xSpiDmaSem = NULL;
+ALIGN_32BYTES(static uint8_t dma_tx_buf[32]);
 
 /* ───────────── STB Pin Control ───────────── */
 
@@ -62,9 +63,12 @@ void TM1638_SendByte(uint8_t *data, uint8_t size)
 
 void TM1638_SendByte_DMA(uint8_t *data, uint8_t size)
 {
+    if (size > sizeof(dma_tx_buf)) return;
+
+    memcpy(dma_tx_buf, data, size);
     STB_Low();
-    SCB_CleanDCache_by_Addr((uint32_t*)data, size * 4);
-    HAL_SPI_Transmit_DMA(&TM1638_SPI, data, size);
+    SCB_CleanDCache_by_Addr((uint32_t*)dma_tx_buf, sizeof(dma_tx_buf));
+    HAL_SPI_Transmit_DMA(&TM1638_SPI, dma_tx_buf, size);
     xSemaphoreTake(xSpiDmaSem, SPI_DMA_TIMEOUT);
     STB_High();
 }
@@ -91,7 +95,7 @@ void TM1638_DisplayNumber(uint8_t position, uint8_t number)
     uint8_t data[2];
     data[0] = TM1638_CMD_ADDR_BASE | (position * 2);
     data[1] = TM1638_7Seg[number];
-    TM1638_SendByte(data, 2);
+    TM1638_SendByte_DMA(data, 2);
 }
 
 /* ───────────── Initialization ───────────── */

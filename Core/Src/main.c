@@ -117,7 +117,6 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   User_SystemInit();
-  User_RunSystem();
   vTaskStartScheduler();
 #if 0
   /* USER CODE END 2 */
@@ -287,10 +286,10 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  // 1. ?””ë²„ê±°ê°? ?—°ê²°ë˜?–´ ?ˆ?‹¤ë©? ?—¬ê¸°ì„œ ë©ˆì¶¤ (BKPT ëª…ë ¹?–´)
+  // 1. ?ï¿½ï¿½ë²„ê±°ï¿½? ?ï¿½ï¿½ê²°ë˜?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½ê¸°ì„œ ë©ˆì¶¤ (BKPT ëª…ë ¹?ï¿½ï¿½)
   __asm("BKPT #0");
 
-  // 2. ë¡œê·¸ ì¶œë ¥ (printfê°? ?„¤? •?˜?–´ ?ˆ?‹¤ë©?)
+  // 2. ë¡œê·¸ ì¶œë ¥ (printfï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?)
   // printf("Assert Failed! File: %s, Line: %lu\r\n", file, line);
 
   /* User can add his own implementation to report the file name and line number,
