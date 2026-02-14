@@ -4,14 +4,7 @@
 #include "Bsp/bsp_TM1638.h"
 #include "util/RTC.h"
 
-static void sys_main_task(void *arg);
-
-void sys_main_create(void)
-{
-    xTaskCreate(sys_main_task, "sysTask", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
-}
-
-static void sys_main_task(void *arg)
+void sys_main_task(void *arg)
 {
     while(1)
     {

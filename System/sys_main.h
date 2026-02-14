@@ -11,4 +11,4 @@
 extern volatile bool kernelStarted;
 
 extern void User_SystemInit(void);
-extern void sys_main_create(void);
+extern void sys_main_task(void *arg);

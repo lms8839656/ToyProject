@@ -26,7 +26,7 @@ static void sys_init_task(void *arg)
     kernelStarted = true;
 
     /* Create application tasks */
-    sys_main_create();
+    xTaskCreate(sys_main_task, "sysTask", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
 
     /* Init complete, delete this task */
     vTaskDelete(NULL);
