@@ -8,6 +8,8 @@ stages:
 
 variables:
   GIT_DEPTH: 0  # 전체 히스토리 가져오기 (태그 정보 필요)
+  PYTHONUTF8: "1"
+  PYTHONIOENCODING: "utf-8"
 
 # 공통 before_script
 .common_setup:

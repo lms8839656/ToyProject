@@ -112,10 +112,10 @@ def main():
         os.makedirs(os.path.dirname(version_h_path), exist_ok=True)
         with open(version_h_path, 'w', encoding='utf-8') as f:
             f.write(content)
-        print(f"✓ version.h generated successfully at: {version_h_path}")
+        print(f"version.h generated successfully at: {version_h_path}")
         return 0
     except Exception as e:
-        print(f"✗ Error writing version.h: {e}", file=sys.stderr)
+        print(f"Error writing version.h: {e}", file=sys.stderr)
         return 1
 
 if __name__ == '__main__':
