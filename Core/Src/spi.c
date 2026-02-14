@@ -26,6 +26,7 @@
 
 SPI_HandleTypeDef hspi4;
 SPI_HandleTypeDef hspi5;
+DMA_HandleTypeDef hdma_spi5_tx;
 
 /* SPI4 init function */
 void MX_SPI4_Init(void)
@@ -165,6 +166,28 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     GPIO_InitStruct.Alternate = GPIO_AF5_SPI5;
     HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
+    /* SPI5 DMA Init */
+    /* SPI5_TX Init */
+    hdma_spi5_tx.Instance = DMA1_Stream0;
+    hdma_spi5_tx.Init.Request = DMA_REQUEST_SPI5_TX;
+    hdma_spi5_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+    hdma_spi5_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_spi5_tx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_spi5_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+    hdma_spi5_tx.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+    hdma_spi5_tx.Init.Mode = DMA_NORMAL;
+    hdma_spi5_tx.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_spi5_tx.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
+    hdma_spi5_tx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+    hdma_spi5_tx.Init.MemBurst = DMA_MBURST_SINGLE;
+    hdma_spi5_tx.Init.PeriphBurst = DMA_PBURST_SINGLE;
+    if (HAL_DMA_Init(&hdma_spi5_tx) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    __HAL_LINKDMA(spiHandle,hdmatx,hdma_spi5_tx);
+
     /* SPI5 interrupt Init */
     HAL_NVIC_SetPriority(SPI5_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(SPI5_IRQn);
@@ -212,6 +235,9 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
     PF9     ------> SPI5_MOSI
     */
     HAL_GPIO_DeInit(GPIOF, GPIO_PIN_7|GPIO_PIN_9);
+
+    /* SPI5 DMA DeInit */
+    HAL_DMA_DeInit(spiHandle->hdmatx);
 
     /* SPI5 interrupt Deinit */
     HAL_NVIC_DisableIRQ(SPI5_IRQn);

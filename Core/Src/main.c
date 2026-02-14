@@ -20,6 +20,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "crc.h"
+#include "dma.h"
 #include "eth.h"
 #include "rtc.h"
 #include "spi.h"
@@ -106,7 +107,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USB_OTG_FS_PCD_Init();
+  MX_DMA_Init();
   MX_RTC_Init();
   MX_USART3_UART_Init();
   MX_TIM2_Init();
@@ -114,6 +115,7 @@ int main(void)
   MX_ETH_Init();
   MX_SPI4_Init();
   MX_SPI5_Init();
+  MX_USB_OTG_FS_PCD_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   User_SystemInit();
@@ -286,10 +288,10 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  // 1. ?��버거�? ?��결되?�� ?��?���? ?��기서 멈춤 (BKPT 명령?��)
+  // 1. ?��버거�?? ?��결되?�� ?��?���?? ?��기서 멈춤 (BKPT 명령?��)
   __asm("BKPT #0");
 
-  // 2. 로그 출력 (printf�? ?��?��?��?�� ?��?���?)
+  // 2. 로그 출력 (printf�?? ?��?��?��?�� ?��?���??)
   // printf("Assert Failed! File: %s, Line: %lu\r\n", file, line);
 
   /* User can add his own implementation to report the file name and line number,
