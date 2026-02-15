@@ -24,14 +24,30 @@ def run_git_command(cmd):
         print(f"Error running git command: {e}")
         return ""
 
+def run_git_returncode(cmd):
+    """Run git command and return exit code (or None on execution error)."""
+    try:
+        result = subprocess.run(
+            cmd,
+            shell=True,
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(os.path.dirname(__file__))
+        )
+        return result.returncode
+    except Exception:
+        return None
+
 def get_git_info():
     """Get Git information"""
+    worktree_diff = run_git_returncode('git diff --quiet')
+    staged_diff = run_git_returncode('git diff --cached --quiet')
+
     info = {
         'hash': run_git_command('git rev-parse --short HEAD'),
         'branch': run_git_command('git rev-parse --abbrev-ref HEAD'),
         'tag': run_git_command('git describe --tags --abbrev=0'),
-        'dirty': run_git_command('git diff --quiet') != '' or
-                 run_git_command('git diff --cached --quiet') != ''
+        'dirty': (worktree_diff == 1) or (staged_diff == 1)
     }
 
     # Default version if no tag exists

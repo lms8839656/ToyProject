@@ -15,5 +15,5 @@ void TM1638_DisplayNumber(uint8_t position, uint8_t number);
 void TM1638_SendByte_Single(uint8_t data);
 void TM1638_SendByte(uint8_t *data, uint8_t size);
 void TM1638_SendByte_DMA(uint8_t *data, uint8_t size);
-void TM1638_ReceiveByte(uint8_t data);
+void TM1638_ReceiveByte(void);
 void TM1638_CallBack(SPI_HandleTypeDef *hspi);

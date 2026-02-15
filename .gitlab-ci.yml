@@ -14,6 +14,7 @@ variables:
 # 공통 before_script
 .common_setup:
   before_script:
+    - apt-get update && apt-get install -y --no-install-recommends git
     - python --version
     - git --version
     - git describe --tags --always || echo "No tags"
@@ -24,9 +25,6 @@ build_firmware:
   image: python:3.11-slim
 
   script:
-    # Git 설치 (slim 이미지에는 없을 수 있음)
-    - apt-get update && apt-get install -y git
-
     # Python 스크립트로 버전 생성 (크로스 플랫폼)
     - python scripts/update_version.py
 

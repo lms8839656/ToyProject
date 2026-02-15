@@ -7,7 +7,7 @@ STM32 기반 Real Time Clock 임베디드 시스템 프로젝트
 
 ## 🔧 하드웨어
 
-- **MCU**: STM32F4xx series
+- **MCU**: STM32H743ZIT6 (STM32H7 series)
 - **개발 환경**: IAR Embedded Workbench
 - **디버거**: ST-Link
 

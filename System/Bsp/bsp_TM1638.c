@@ -8,6 +8,7 @@
 
 #define TM1638_SPI          hspi5
 #define SPI_DMA_TIMEOUT     pdMS_TO_TICKS(100)
+#define TM1638_MAX_POSITION 7U
 
 /* ───────────── 7-Segment Encoding ───────────── */
 
@@ -63,17 +64,32 @@ void TM1638_SendByte(uint8_t *data, uint8_t size)
 
 void TM1638_SendByte_DMA(uint8_t *data, uint8_t size)
 {
-    if (size > sizeof(dma_tx_buf)) return;
+    BaseType_t dma_done = pdFALSE;
+    HAL_StatusTypeDef hal_status;
 
+    if ((data == NULL) || (size == 0U) || (size > sizeof(dma_tx_buf)) || (xSpiDmaSem == NULL)) {
+        return;
+    }
+
+    /* If previous transfer timed out, clear pending semaphore state before retry. */
+    (void)xSemaphoreTake(xSpiDmaSem, 0U);
     memcpy(dma_tx_buf, data, size);
     STB_Low();
     SCB_CleanDCache_by_Addr((uint32_t*)dma_tx_buf, sizeof(dma_tx_buf));
-    HAL_SPI_Transmit_DMA(&TM1638_SPI, dma_tx_buf, size);
-    xSemaphoreTake(xSpiDmaSem, SPI_DMA_TIMEOUT);
+    hal_status = HAL_SPI_Transmit_DMA(&TM1638_SPI, dma_tx_buf, size);
+    if (hal_status != HAL_OK) {
+        STB_High();
+        return;
+    }
+
+    dma_done = xSemaphoreTake(xSpiDmaSem, SPI_DMA_TIMEOUT);
     STB_High();
+    if (dma_done != pdTRUE) {
+        (void)HAL_SPI_Abort(&TM1638_SPI);
+    }
 }
 
-void TM1638_ReceiveByte(uint8_t data)
+void TM1638_ReceiveByte(void)
 {
     uint8_t receivedData = 0;
     HAL_SPI_Receive(&TM1638_SPI, &receivedData, 1, HAL_MAX_DELAY);
@@ -84,6 +100,10 @@ void TM1638_ReceiveByte(uint8_t data)
 void TM1638_CallBack(SPI_HandleTypeDef *hspi)
 {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    if ((hspi == NULL) || (hspi->Instance != SPI5) || (xSpiDmaSem == NULL)) {
+        return;
+    }
+
     xSemaphoreGiveFromISR(xSpiDmaSem, &xHigherPriorityTaskWoken);
     portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
@@ -93,7 +113,11 @@ void TM1638_CallBack(SPI_HandleTypeDef *hspi)
 void TM1638_DisplayNumber(uint8_t position, uint8_t number)
 {
     uint8_t data[2];
-    data[0] = TM1638_CMD_ADDR_BASE | (position * 2);
+    if ((position > TM1638_MAX_POSITION) || (number > 9U)) {
+        return;
+    }
+
+    data[0] = TM1638_CMD_ADDR_BASE | (uint8_t)(position * 2U);
     data[1] = TM1638_7Seg[number];
     TM1638_SendByte_DMA(data, 2);
 }
@@ -103,6 +127,9 @@ void TM1638_DisplayNumber(uint8_t position, uint8_t number)
 void TM1638_Init(void)
 {
     xSpiDmaSem = xSemaphoreCreateBinary();
+    if (xSpiDmaSem == NULL) {
+        return;
+    }
 
     /* Display ON, Max Brightness */
     TM1638_SendByte_Single(TM1638_CMD_DISPLAY_ON | TM1638_CMD_BRIGHTNESS);

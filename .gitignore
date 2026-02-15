@@ -28,7 +28,6 @@ obj/
 
 # IDE and Editor
 .vscode/
-.claude/
 .idea/
 *.swp
 *.swo
