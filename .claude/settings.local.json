@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(git -C \"c:/Users/LeeJaeHwa/Desktop/ToyProject\" log --oneline -10)"
     ]
   }
 }

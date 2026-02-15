@@ -1,0 +1,23 @@
+name: STM32 CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 저장소 코드 내려받기 (Instruction: Checkout)
+      - uses: actions/checkout@v4
+
+      # 2. 빌드/테스트 스크립트 실행 (Instruction: Run)
+      # IAR 프로젝트의 경우 전용 빌드 서버나 Docker가 필요할 수 있습니다.
+      # 여기서는 워크플로우가 정상 작동하는지 확인하기 위한 예시 명령어를 넣었습니다.
+      - name: Run Build Placeholder
+        run: |
+          echo "Setting up build environment..."
+          echo "Compiling project..."
